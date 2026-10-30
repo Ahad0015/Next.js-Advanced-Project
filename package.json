@@ -1,0 +1,32 @@
+{
+  "name": "addis-eats",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "attacks": "node scripts/attacks.mjs",
+    "test:analytics": "esbuild tests/analytics.test.mjs --bundle --platform=node --format=esm --alias:@=./src --log-level=error --outfile=.test-build/analytics.mjs && node .test-build/analytics.mjs",
+    "test:actions": "esbuild tests/actions.test.mjs --bundle --platform=node --format=esm --alias:@=./src --alias:next/headers=./tests/stubs/headers.js --alias:next/cache=./tests/stubs/cache.js --alias:next/navigation=./tests/stubs/navigation.js --log-level=error --outfile=.test-build/actions.mjs && node .test-build/actions.mjs",
+    "test": "npm run test:analytics && npm run test:actions && npm run test:cart",
+    "test:cart": "esbuild tests/cart.test.jsx --bundle --platform=node --format=esm --jsx=automatic --loader:.js=jsx --alias:@=./src --external:jsdom --external:react --external:react-dom --log-level=error --outfile=.test-build/cart.mjs && node .test-build/cart.mjs"
+  },
+  "dependencies": {
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "recharts": "^3.10.1",
+    "swr": "^2.5.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/turbopack": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.0",
+    "tailwindcss": "^4",
+    "esbuild": "^0.25.0",
+    "jsdom": "^30.1.3"
+  }
+}

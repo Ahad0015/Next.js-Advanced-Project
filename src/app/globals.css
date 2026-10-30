@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design tokens. Change a colour here and the whole app follows.
+   Palette is taken from the food: collard-green (brand), berbere red (errors and
+   destructive actions only), turmeric (pending states, chart accent), and a cool
+   off-white page so the photos carry the colour.
+   --------------------------------------------------------------------------- */
+@theme {
+  --color-paper: #f6f5f0;
+  --color-surface: #ffffff;
+  --color-ink: #1b2420;
+  --color-muted: #55605a;
+  --color-line: #d8d8cd;
+  --color-brand: #1d6b44;
+  --color-brand-strong: #14543a;
+  --color-brand-soft: #e3f0e8;
+  --color-berbere: #b23a22;
+  --color-berbere-soft: #f9e7e2;
+  --color-turmeric: #b87800;
+  --color-turmeric-ink: #7a4f00;
+  --color-turmeric-soft: #fbf0d4;
+}
+
+/* Fonts are loaded in layout.js with next/font and exposed as CSS variables. */
+@theme inline {
+  --font-sans: var(--font-public), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    font-family: var(--font-sans);
+    line-height: 1.55;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+  }
+  /* A visible keyboard focus ring on everything interactive. */
+  :focus-visible {
+    outline: 3px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  /* Respect people who ask their system for less motion. */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Reusable component classes (buttons, form fields, cards, badges, tables).
+   --------------------------------------------------------------------------- */
+@layer components {
+  .btn {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition-colors;
+    @apply disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary { @apply bg-brand text-white hover:bg-brand-strong; }
+  .btn-secondary { @apply border border-line bg-surface text-ink hover:bg-brand-soft; }
+  .btn-danger { @apply bg-berbere text-white hover:bg-[#8f2d19]; }
+  .btn-ghost { @apply text-ink hover:bg-brand-soft; }
+  .btn-sm { @apply min-h-9 px-3 py-1.5; }
+
+  .field { @apply block w-full rounded-lg border border-line bg-surface px-3 py-2.5 text-base text-ink placeholder:text-muted/70; }
+  .field[aria-invalid="true"] { @apply border-berbere; }
+  .label { @apply mb-1 block text-sm font-semibold text-ink; }
+  .hint { @apply mt-1 text-sm text-muted; }
+  .field-error { @apply mt-1 flex items-start gap-1 text-sm font-medium text-berbere; }
+
+  .card { @apply rounded-xl border border-line bg-surface p-5; }
+
+  .badge { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold; }
+  .badge-neutral { @apply bg-paper text-muted ring-1 ring-line; }
+  .badge-warn { @apply bg-turmeric-soft text-turmeric-ink; }
+  .badge-ok { @apply bg-brand-soft text-brand-strong; }
+  .badge-bad { @apply bg-berbere-soft text-berbere; }
+
+  .alert { @apply flex items-start gap-3 rounded-lg border p-3 text-sm; }
+  .alert-ok { @apply border-brand/30 bg-brand-soft text-brand-strong; }
+  .alert-error { @apply border-berbere/30 bg-berbere-soft text-berbere; }
+  .alert-info { @apply border-turmeric/40 bg-turmeric-soft text-turmeric-ink; }
+
+  .data-table { @apply w-full border-collapse text-left text-sm; }
+  .data-table caption { @apply pb-3 text-left text-base font-semibold; }
+  .data-table th { @apply whitespace-nowrap border-b border-line bg-paper px-3 py-2.5 font-semibold text-muted; }
+  .data-table td { @apply border-b border-line px-3 py-3 align-middle; }
+  .data-table tbody tr:last-child td { @apply border-b-0; }
+  .num { font-variant-numeric: tabular-nums; text-align: right; }
+
+  .skeleton { @apply animate-pulse rounded-md bg-line/70; }
+}
